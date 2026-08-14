@@ -1,0 +1,338 @@
+/* ============================================================
+   RIBBON STYLES
+   ============================================================ */
+
+#ribbon {
+  height: var(--ribbon-height);
+  flex-shrink: 0;
+  background: var(--panel-raised);
+  border-bottom: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  z-index: 50;
+}
+
+#ribbon-tabs {
+  display: flex;
+  gap: 2px;
+  padding: 4px 8px 0 8px;
+  height: 28px;
+  align-items: flex-end;
+}
+
+.ribbon-tab {
+  background: transparent;
+  border: none;
+  color: var(--text-dim);
+  font-size: 12px;
+  font-weight: 600;
+  padding: 3px 14px 5px 14px;
+  border-radius: 4px 4px 0 0;
+  transition: all 0.15s;
+  cursor: pointer;
+}
+
+.ribbon-tab:hover {
+  color: var(--text);
+  background: rgba(255, 255, 255, 0.04);
+}
+
+.ribbon-tab.active {
+  color: var(--text);
+  background: var(--panel);
+}
+
+#ribbon-content {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 0 12px;
+  background: var(--panel);
+  border-top: 1px solid var(--border);
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.ribbon-group {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  padding: 0 8px;
+  border-right: 1px solid var(--border);
+  height: 32px;
+  flex-shrink: 0;
+}
+
+.ribbon-group:last-child {
+  border-right: none;
+}
+
+.ribbon-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  font-size: 11.5px;
+  font-weight: 600;
+  padding: 4px 10px;
+  border-radius: var(--radius);
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap;
+  cursor: pointer;
+  transition: all 0.15s;
+}
+
+.ribbon-btn:hover {
+  background: var(--panel-hover);
+  color: var(--text);
+}
+
+.ribbon-btn.active {
+  background: var(--accent);
+  color: #fff;
+}
+
+.ribbon-btn:active {
+  transform: scale(0.96);
+}
+
+.ribbon-btn .ribbon-icon {
+  font-size: 14px;
+  line-height: 1;
+}
+
+.ribbon-btn .ribbon-label {
+  font-size: 11px;
+}
+
+.ribbon-btn[data-toggle="true"][data-state="true"] {
+  background: var(--accent);
+  color: #fff;
+}
+
+.ribbon-btn[data-toggle="true"][data-state="true"]:hover {
+  background: var(--accent-hover);
+}
+
+.ribbon-btn.disabled {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
+/* Ribbon separator */
+.ribbon-sep {
+  width: 1px;
+  height: 24px;
+  background: var(--border);
+  margin: 0 4px;
+  flex-shrink: 0;
+}
+
+/* Ribbon dropdown menu */
+.ribbon-dropdown {
+  position: relative;
+}
+
+.ribbon-dropdown-menu {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  min-width: 180px;
+  background: var(--panel-raised);
+  border: 1px solid var(--border-light);
+  border-radius: var(--radius);
+  padding: 4px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.5);
+  display: none;
+  z-index: 100;
+}
+
+.ribbon-dropdown-menu.open {
+  display: block;
+}
+
+.ribbon-dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 5px 10px;
+  border-radius: 3px;
+  cursor: pointer;
+  font-size: 12px;
+  color: var(--text-muted);
+  transition: all 0.1s;
+}
+
+.ribbon-dropdown-item:hover {
+  background: var(--accent);
+  color: #fff;
+}
+
+.ribbon-dropdown-item .item-icon {
+  width: 16px;
+  text-align: center;
+}
+
+.ribbon-dropdown-item .item-shortcut {
+  margin-left: auto;
+  color: var(--text-dim);
+  font-size: 10px;
+}
+
+.ribbon-dropdown-item:hover .item-shortcut {
+  color: rgba(255, 255, 255, 0.7);
+}
+
+/* Large buttons for main actions */
+.ribbon-btn.large {
+  padding: 6px 14px;
+  font-size: 13px;
+}
+
+.ribbon-btn.large .ribbon-icon {
+  font-size: 18px;
+}
+
+/* Small buttons for compact mode */
+.ribbon-btn.small {
+  padding: 2px 6px;
+  font-size: 10px;
+}
+
+.ribbon-btn.small .ribbon-icon {
+  font-size: 12px;
+}
+
+/* Ribbon tooltip */
+.ribbon-btn[title]:hover::after {
+  content: attr(title);
+  position: absolute;
+  bottom: calc(100% + 8px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--panel-raised);
+  border: 1px solid var(--border-light);
+  padding: 4px 10px;
+  border-radius: var(--radius);
+  font-size: 11px;
+  color: var(--text-muted);
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 200;
+}
+
+/* Responsive ribbon */
+@media (max-width: 900px) {
+  .ribbon-btn {
+    font-size: 10px;
+    padding: 3px 6px;
+  }
+  .ribbon-btn .ribbon-icon {
+    font-size: 12px;
+  }
+  .ribbon-group {
+    padding: 0 4px;
+    gap: 2px;
+  }
+  .ribbon-btn.large {
+    padding: 4px 8px;
+    font-size: 11px;
+  }
+  .ribbon-btn.large .ribbon-icon {
+    font-size: 14px;
+  }
+}
+
+@media (max-width: 600px) {
+  #ribbon-tabs {
+    height: 24px;
+    padding: 2px 4px 0 4px;
+  }
+  .ribbon-tab {
+    font-size: 10px;
+    padding: 2px 8px 3px 8px;
+  }
+  #ribbon-content {
+    padding: 0 4px;
+    gap: 2px;
+  }
+  .ribbon-group {
+    height: 28px;
+    padding: 0 2px;
+  }
+  .ribbon-btn {
+    font-size: 9px;
+    padding: 2px 4px;
+  }
+  .ribbon-btn .ribbon-icon {
+    font-size: 10px;
+  }
+  .ribbon-sep {
+    height: 16px;
+    margin: 0 2px;
+  }
+}
+
+/* Scrollbar for ribbon */
+#ribbon-content::-webkit-scrollbar {
+  height: 3px;
+}
+
+#ribbon-content::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+#ribbon-content::-webkit-scrollbar-thumb {
+  background: var(--border-light);
+  border-radius: 2px;
+}
+
+/* Ribbon group label (optional) */
+.ribbon-group-label {
+  font-size: 9px;
+  text-transform: uppercase;
+  color: var(--text-dim);
+  letter-spacing: 0.5px;
+  font-weight: 700;
+  padding-right: 4px;
+  border-right: 1px solid var(--border);
+  margin-right: 4px;
+  height: 20px;
+  display: flex;
+  align-items: center;
+}
+
+/* Ribbon dropdown trigger with arrow */
+.ribbon-btn.dropdown-trigger::after {
+  content: '▼';
+  font-size: 8px;
+  margin-left: 4px;
+  color: var(--text-dim);
+}
+
+.ribbon-btn.dropdown-trigger:hover::after {
+  color: var(--text);
+}
+
+/* Active state for toggle buttons */
+.ribbon-btn.toggle-active {
+  background: rgba(0, 102, 255, 0.2);
+  color: var(--accent);
+}
+
+.ribbon-btn.toggle-active:hover {
+  background: rgba(0, 102, 255, 0.3);
+}
+
+/* Disabled state */
+.ribbon-btn:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.ribbon-btn:disabled:hover {
+  background: transparent;
+  color: var(--text-muted);
+}

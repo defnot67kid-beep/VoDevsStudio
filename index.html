@@ -211,9 +211,9 @@
                     <input type="file" id="fileInput" accept=".xml,.rbxlx,.rbxmx,.rbxl,.rbxm,.gltf,.glb,.obj" style="display:none;">
                     <span id="fileName">No file selected</span>
                     <div class="divider"></div>
-                    <label for="wedgeSteps" style="font-size:12.5px; color:var(--text-muted); display:flex; align-items:center; gap:6px;" title="Wedges are rebuilt as boxes. Higher = smoother.">
-                        🪜 Slices
-                        <input type="number" id="wedgeSteps" min="2" max="16" value="6" style="width:48px; background:var(--input-bg); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:4px 6px; font-family:inherit; font-size:12.5px;">
+                    <label for="wedgeSteps" class="slices-row" title="Wedges are rebuilt as boxes. Higher = smoother.">
+                        Slices
+                        <input type="number" id="wedgeSteps" min="2" max="16" value="6">
                     </label>
                     <div class="divider"></div>
                     <button class="btn btn-success" id="addPartBtn">➕ Add Part</button>
@@ -297,7 +297,7 @@
                                     <option value="Inlets">Inlets</option>
                                 </select>
                             </div>
-                            <button type="button" class="btn" id="propTexAddBtn" style="width:100%; justify-content:center; margin-bottom:8px;">+ Add Texture</button>
+                            <button type="button" class="btn" id="propTexAddBtn">+ Add Texture</button>
                             <ul class="texture-list" id="propTexList"></ul>
                         </div>
                     </div>

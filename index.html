@@ -1,0 +1,208 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Roblox Studio - Web Editor</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div id="info">
+        <span class="dot"></span>
+        <span class="brand-text">
+            <span class="brand-title">Roblox Studio</span>
+            <span class="brand-sub">Web Editor</span>
+        </span>
+    </div>
+    <div id="status">✨ Ready. Drop rbxlx/rbxmx/XML, glTF, or OBJ.</div>
+
+    <div id="file-upload">
+        <label class="btn" for="fileInput">📁 Import</label>
+        <input type="file" id="fileInput" accept=".xml,.rbxlx,.rbxmx,.rbxl,.rbxm,.gltf,.glb,.obj">
+        <span id="fileName">No file selected</span>
+        <div class="divider"></div>
+        <label for="wedgeSteps" style="font-size:12.5px; color:var(--text-muted); display:flex; align-items:center; gap:6px;" title="Vortex Studio has no wedge/corner-wedge primitive, so wedges are rebuilt as a staircase of boxes. Higher = smoother ramp, but more Parts.">
+            🪜 Slices
+            <input type="number" id="wedgeSteps" min="2" max="16" value="6" style="width:48px; background:var(--input-bg); color:var(--text); border:1px solid var(--border); border-radius:6px; padding:4px 6px; font-family:inherit; font-size:12.5px;">
+        </label>
+        <div class="divider"></div>
+        <button class="btn btn-success" id="addPartBtn">➕ Add Part</button>
+        <button class="btn btn-primary" id="exportBtn">📦 Export JSON</button>
+        <div class="divider"></div>
+        <button class="btn" id="toolboxBtn">🧰 Toolbox</button>
+        <div class="divider"></div>
+        <button class="btn btn-danger" id="clearBtn">✕ Clear</button>
+    </div>
+
+    <!-- Explorer Panel -->
+    <div id="explorer" class="panel">
+        <div class="panel-title">
+            Explorer
+            <button id="refreshExplorerBtn">↻</button>
+        </div>
+        <input type="text" id="searchBox" placeholder="Search Workspace...">
+        <ul id="tree">
+            <li>
+                <span class="arrow">▼</span>
+                <span class="tree-node tree-node-row" id="workspaceNode" data-node="Workspace">
+                    <span class="tree-node-label">🌐 Workspace</span>
+                    <button class="explorer-add-btn" id="workspaceAddBtn" title="Insert object into Workspace">⊕</button>
+                </span>
+                <ul class="nested" id="workspaceRoot">
+                    <li><span class="arrow">▼</span> <span class="tree-node">📷 Camera</span></li>
+                    <li><span class="arrow">▼</span> <span class="tree-node">⛰️ Terrain</span></li>
+                    <li id="importedModelNode"><span class="arrow">▼</span> <span class="tree-node">ImportedModel (Empty)</span>
+                        <ul class="nested" id="modelChildren"></ul>
+                    </li>
+                    <li class="extras-holder"><ul class="nested" id="workspaceExtras" style="padding-left:0;"></ul></li>
+                </ul>
+            </li>
+        </ul>
+    </div>
+
+    <!-- Insert Object popup (mirrors Roblox Studio's "Insert Object" search) -->
+    <div id="insertObjectMenu" class="floating-menu">
+        <input type="text" id="insertObjectSearch" placeholder="Search object">
+        <div class="floating-menu-list" id="insertObjectList"></div>
+    </div>
+
+    <!-- Generic right-click context menu -->
+    <ul id="contextMenu" class="context-menu"></ul>
+
+    <!-- Toolbox Panel — community marketplace (mirrors Roblox's Toolbox / Creator Store).
+         This is NOT a personal asset list: the Store tab shows everything anyone has
+         published, and publishing happens via right-click → Save to Vodevs elsewhere
+         in the UI. "My Assets" only filters down to what you personally saved. -->
+    <div id="toolboxPanel" class="panel toolbox-panel">
+        <div class="panel-title">
+            🧰 Toolbox
+            <button id="closeToolboxBtn">✕</button>
+        </div>
+        <div class="toolbox-tabs">
+            <button class="toolbox-tab active" data-tab="store" type="button">🛒 Store</button>
+            <button class="toolbox-tab" data-tab="mine" type="button">📁 My Assets</button>
+        </div>
+        <input type="text" id="toolboxSearch" placeholder="Search Toolbox...">
+        <div class="toolbox-chips" id="toolboxChips">
+            <button class="chip active" data-cat="all" type="button">All</button>
+            <button class="chip" data-cat="model" type="button">🧩 Models</button>
+            <button class="chip" data-cat="part" type="button">📦 Parts</button>
+            <button class="chip" data-cat="instance" type="button">🛠️ Instances</button>
+        </div>
+
+        <div id="toolboxBrowse">
+            <div id="toolboxEmpty" class="texture-empty" style="display:none;">Nothing here yet. Right-click a part or model → <b>Save to Vodevs</b> to publish it so everyone can insert it.</div>
+            <ul id="toolboxList" class="vodevs-list toolbox-grid"></ul>
+        </div>
+
+        <!-- Detail view for a selected Toolbox item, like clicking into an asset on Creator Store -->
+        <div id="toolboxDetail" class="toolbox-detail" style="display:none;">
+            <button id="toolboxDetailBack" class="toolbox-back" type="button">← Back</button>
+            <div class="toolbox-detail-icon" id="toolboxDetailIcon">🧩</div>
+            <div class="toolbox-detail-name" id="toolboxDetailName">Asset name</div>
+            <div class="toolbox-detail-meta" id="toolboxDetailMeta">By @you</div>
+            <div class="toolbox-detail-actions">
+                <button class="btn btn-primary" id="toolboxDetailInsert" type="button">Insert</button>
+                <button class="btn btn-danger" id="toolboxDetailRemove" type="button">Remove</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Properties Panel -->
+    <div id="properties" class="panel">
+        <div class="panel-title">Properties</div>
+        <div id="propContent">
+            <div class="prop-group">
+                <label>Name</label>
+                <input type="text" id="propName">
+            </div>
+            <div class="prop-group">
+                <label>Class</label>
+                <div id="propClass" style="font-size:0.9rem; color:#aaa;">Part</div>
+            </div>
+            <div class="prop-group">
+                <label>Material</label>
+                <select id="propMaterial">
+                    <option value="Plastic">Plastic</option>
+                    <option value="Wood">Wood</option>
+                    <option value="Metal">Metal</option>
+                    <option value="Grass">Grass</option>
+                    <option value="Ice">Ice</option>
+                    <option value="Paint">Paint</option>
+                </select>
+            </div>
+            <div class="prop-group">
+                <label>Position</label>
+                <div class="prop-row">
+                    <input type="number" id="propPosX" step="0.1">
+                    <input type="number" id="propPosY" step="0.1">
+                    <input type="number" id="propPosZ" step="0.1">
+                </div>
+            </div>
+            <div class="prop-group">
+                <label>Rotation (Euler)</label>
+                <div class="prop-row">
+                    <input type="number" id="propRotX" step="0.1">
+                    <input type="number" id="propRotY" step="0.1">
+                    <input type="number" id="propRotZ" step="0.1">
+                </div>
+            </div>
+            <div class="prop-group">
+                <label>Size</label>
+                <div class="prop-row">
+                    <input type="number" id="propSizeX" step="0.1">
+                    <input type="number" id="propSizeY" step="0.1">
+                    <input type="number" id="propSizeZ" step="0.1">
+                </div>
+            </div>
+            <div class="prop-group">
+                <label>Color (Hex)</label>
+                <input type="color" id="propColor" value="#cccccc">
+            </div>
+            <div class="prop-group">
+                <label>Behavior</label>
+                <label class="checkbox-row"><input type="checkbox" id="propAnchored"> Anchored</label>
+                <label class="checkbox-row"><input type="checkbox" id="propCanCollide"> CanCollide</label>
+                <label class="checkbox-row"><input type="checkbox" id="propTruss"> Truss</label>
+            </div>
+            <div class="prop-group">
+                <label>Textures</label>
+                <div class="texture-add-row">
+                    <select id="propTexFace">
+                        <option value="Front">Front</option>
+                        <option value="Back">Back</option>
+                        <option value="Top">Top</option>
+                        <option value="Bottom">Bottom</option>
+                        <option value="Left">Left</option>
+                        <option value="Right">Right</option>
+                    </select>
+                    <select id="propTexType">
+                        <option value="Studs">Studs</option>
+                        <option value="Inlets">Inlets</option>
+                    </select>
+                </div>
+                <button type="button" class="btn" id="propTexAddBtn" style="width:100%; justify-content:center; margin-bottom:8px;">+ Add Texture</button>
+                <ul class="texture-list" id="propTexList"></ul>
+            </div>
+        </div>
+    </div>
+
+    <div id="controls-hint">
+        <b>WASD</b> Move &nbsp;|&nbsp; <b>Q/E</b> Up/Down &nbsp;|&nbsp; <b>F</b> Focus Selection<br>
+        <b>1</b> Move &nbsp; <b>2</b> Rotate &nbsp; <b>3</b> Scale &nbsp; <b>Del</b> Delete
+    </div>
+
+    <div class="toast" id="toast"><span class="icon" id="toastIcon">✅</span><span id="toastMessage"></span></div>
+
+    <!-- IMPORT MAP INLINE (FIXED) -->
+    <script type="importmap">
+        {
+            "imports": {
+                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
+            }
+        }
+    </script>
+    <script type="module" src="main.js"></script>
+</body>
+</html>

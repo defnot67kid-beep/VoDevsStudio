@@ -7,237 +7,280 @@
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <!-- HOME PAGE / INITIAL SCREEN -->
-    <div id="homePage" class="home-page">
-        <div class="home-header">
-            <div class="roblox-branding">
-                <div class="roblox-logo">🎮</div>
-                <span class="roblox-title">ROBLOX Studio</span>
-            </div>
+<div id="app">
+
+    <!-- ============ RIBBON (TOP) ============ -->
+    <div id="ribbon">
+        <div id="titlebar">
+            <span class="dot"></span>
+            <span class="brand-text">
+                <span class="brand-title">Roblox Studio</span>
+                <span class="brand-sub">Web Editor</span>
+            </span>
+            <span id="fileName">No file selected</span>
         </div>
 
-        <div class="home-content">
-            <div class="home-welcome">
-                <h1>Welcome, earneracrE</h1>
-                <div class="home-section">
-                    <h2>Take a quick tour</h2>
-                    <p>Learn the basics of Studio by creating your first playable experience in this quick guided tour.</p>
-                    <button class="btn btn-primary" id="startTourBtn">Start Learning</button>
+        <div class="ribbon-tabs" id="ribbonTabs">
+            <button class="ribbon-tab active" data-ribbon="home" type="button">Home</button>
+            <button class="ribbon-tab" data-ribbon="model" type="button">Model</button>
+            <button class="ribbon-tab" data-ribbon="test" type="button">Test</button>
+            <button class="ribbon-tab" data-ribbon="view" type="button">View</button>
+            <button class="ribbon-tab" data-ribbon="plugins" type="button">Plugins</button>
+        </div>
+
+        <div class="ribbon-body">
+
+            <!-- HOME -->
+            <div class="ribbon-page active" data-ribbon-page="home">
+                <div class="ribbon-group">
+                    <div class="ribbon-group-row">
+                        <label class="ribbon-btn-large" for="fileInput" title="Import a model file">
+                            <span class="ribbon-icon">📁</span>
+                            <span class="ribbon-label">Import</span>
+                        </label>
+                        <input type="file" id="fileInput" accept=".xml,.rbxlx,.rbxmx,.rbxl,.rbxm,.gltf,.glb,.obj">
+                    </div>
+                    <span class="ribbon-group-title">File</span>
+                </div>
+                <div class="ribbon-sep"></div>
+
+                <div class="ribbon-group">
+                    <div class="ribbon-group-row">
+                        <button class="ribbon-btn-large" id="addPartBtn" type="button">
+                            <span class="ribbon-icon">🧱</span>
+                            <span class="ribbon-label">Part</span>
+                        </button>
+                        <button class="ribbon-btn-large" id="toolboxBtn" type="button">
+                            <span class="ribbon-icon">🧰</span>
+                            <span class="ribbon-label">Toolbox</span>
+                        </button>
+                    </div>
+                    <span class="ribbon-group-title">Insert</span>
+                </div>
+                <div class="ribbon-sep"></div>
+
+                <div class="ribbon-group">
+                    <div class="ribbon-group-row">
+                        <button class="ribbon-btn-large" id="exportBtn" type="button">
+                            <span class="ribbon-icon">📦</span>
+                            <span class="ribbon-label">Export</span>
+                        </button>
+                        <button class="ribbon-btn-large" id="clearBtn" type="button">
+                            <span class="ribbon-icon">🗑️</span>
+                            <span class="ribbon-label">Clear</span>
+                        </button>
+                    </div>
+                    <span class="ribbon-group-title">File</span>
+                </div>
+                <div class="ribbon-sep"></div>
+
+                <div class="ribbon-group">
+                    <div class="ribbon-group-row">
+                        <label class="ribbon-slices" for="wedgeSteps" title="Vortex Studio has no wedge/corner-wedge primitive, so wedges are rebuilt as a staircase of boxes. Higher = smoother ramp, but more Parts.">
+                            🪜 Slices
+                            <input type="number" id="wedgeSteps" min="2" max="16" value="6">
+                        </label>
+                    </div>
+                    <span class="ribbon-group-title">Options</span>
                 </div>
             </div>
 
-            <div class="home-experiences">
-                <h2>My Recent Experiences</h2>
-                <div class="experience-grid">
-                    <div class="experience-card">
-                        <div class="exp-thumbnail" style="background: linear-gradient(135deg, #87ceeb, #e0f6ff);"></div>
-                        <div class="exp-info">
-                            <div class="exp-name">Untitled Experience</div>
-                            <div class="exp-meta">Modified 08/11/2026 8:16 PM</div>
-                        </div>
-                        <div class="exp-actions">
-                            <button class="exp-btn">⋮</button>
-                        </div>
+            <!-- MODEL (decorative + functional Add Part) -->
+            <div class="ribbon-page" data-ribbon-page="model">
+                <div class="ribbon-group">
+                    <div class="ribbon-group-row">
+                        <button class="ribbon-btn-large" data-alias="addPartBtn" type="button">
+                            <span class="ribbon-icon">🧱</span>
+                            <span class="ribbon-label">Part</span>
+                        </button>
+                        <button class="ribbon-btn-large" disabled title="Not available in web editor" type="button">
+                            <span class="ribbon-icon">🔗</span>
+                            <span class="ribbon-label">Union</span>
+                        </button>
+                        <button class="ribbon-btn-large" disabled title="Not available in web editor" type="button">
+                            <span class="ribbon-icon">📐</span>
+                            <span class="ribbon-label">Negate</span>
+                        </button>
                     </div>
-                    <div class="experience-card">
-                        <div class="exp-thumbnail" style="background: #1a1a1a;"></div>
-                        <div class="exp-info">
-                            <div class="exp-name">Untitled Experience</div>
-                            <div class="exp-meta">Modified 08/09/2026 6:04 PM</div>
-                        </div>
-                        <div class="exp-actions">
-                            <button class="exp-btn">⋮</button>
-                        </div>
+                    <span class="ribbon-group-title">Solid Modeling</span>
+                </div>
+                <div class="ribbon-sep"></div>
+                <div class="ribbon-group">
+                    <div class="ribbon-group-row">
+                        <button class="ribbon-btn-large" id="modelGroupBtn" disabled title="Not available in web editor" type="button">
+                            <span class="ribbon-icon">🗂️</span>
+                            <span class="ribbon-label">Group</span>
+                        </button>
+                        <button class="ribbon-btn-large" disabled title="Not available in web editor" type="button">
+                            <span class="ribbon-icon">📤</span>
+                            <span class="ribbon-label">Ungroup</span>
+                        </button>
                     </div>
-                    <div class="experience-card">
-                        <div class="exp-thumbnail" style="background: linear-gradient(135deg, #708090, #a9a9a9);"></div>
-                        <div class="exp-info">
-                            <div class="exp-name">Untitled Experience</div>
-                            <div class="exp-meta">Modified 08/03/2026 10:47 PM</div>
-                        </div>
-                        <div class="exp-actions">
-                            <button class="exp-btn">⋮</button>
-                        </div>
-                    </div>
+                    <span class="ribbon-group-title">Grouping</span>
                 </div>
             </div>
+
+            <!-- TEST -->
+            <div class="ribbon-page" data-ribbon-page="test">
+                <div class="ribbon-group">
+                    <div class="ribbon-group-row">
+                        <button class="ribbon-btn-large ribbon-btn-play" id="playBtn" type="button">
+                            <span class="ribbon-icon">▶️</span>
+                            <span class="ribbon-label">Play</span>
+                        </button>
+                        <button class="ribbon-btn-large" disabled title="Not available in web editor" type="button">
+                            <span class="ribbon-icon">👤</span>
+                            <span class="ribbon-label">Play Here</span>
+                        </button>
+                        <button class="ribbon-btn-large" disabled title="Not available in web editor" type="button">
+                            <span class="ribbon-icon">⏸️</span>
+                            <span class="ribbon-label">Pause</span>
+                        </button>
+                    </div>
+                    <span class="ribbon-group-title">Play</span>
+                </div>
+            </div>
+
+            <!-- VIEW -->
+            <div class="ribbon-page" data-ribbon-page="view">
+                <div class="ribbon-group">
+                    <div class="ribbon-group-row">
+                        <button class="ribbon-btn-large ribbon-toggle active" id="viewToggleExplorer" type="button">
+                            <span class="ribbon-icon">🗂️</span>
+                            <span class="ribbon-label">Explorer</span>
+                        </button>
+                        <button class="ribbon-btn-large ribbon-toggle" id="viewToggleProperties" type="button">
+                            <span class="ribbon-icon">📋</span>
+                            <span class="ribbon-label">Properties</span>
+                        </button>
+                        <button class="ribbon-btn-large ribbon-toggle active" id="viewToggleToolbox" type="button">
+                            <span class="ribbon-icon">🧰</span>
+                            <span class="ribbon-label">Toolbox</span>
+                        </button>
+                    </div>
+                    <span class="ribbon-group-title">Show</span>
+                </div>
+                <div class="ribbon-sep"></div>
+                <div class="ribbon-group">
+                    <div class="ribbon-group-row">
+                        <button class="ribbon-btn-large ribbon-toggle active" id="viewToggleGrid" type="button">
+                            <span class="ribbon-icon">▦</span>
+                            <span class="ribbon-label">Grid</span>
+                        </button>
+                    </div>
+                    <span class="ribbon-group-title">Viewport</span>
+                </div>
+            </div>
+
+            <!-- PLUGINS -->
+            <div class="ribbon-page" data-ribbon-page="plugins">
+                <div class="ribbon-group">
+                    <div class="ribbon-group-row">
+                        <button class="ribbon-btn-large" disabled title="Not available in web editor" type="button">
+                            <span class="ribbon-icon">🧩</span>
+                            <span class="ribbon-label">Manage</span>
+                        </button>
+                        <button class="ribbon-btn-large" disabled title="Not available in web editor" type="button">
+                            <span class="ribbon-icon">🏪</span>
+                            <span class="ribbon-label">Plugins Market</span>
+                        </button>
+                    </div>
+                    <span class="ribbon-group-title">Plugins</span>
+                </div>
+            </div>
+
         </div>
     </div>
 
-    <!-- EDITOR PAGE (hidden by default, shown when you open a project) -->
-    <div id="editorPage" class="editor-page" style="display:none;">
-        <!-- Top Menu Bar -->
-        <div id="topMenu" class="top-menu">
-            <div class="menu-left">
-                <span class="menu-file">File</span>
-                <span class="menu-edit">Edit</span>
-                <span class="menu-view">View</span>
-                <span class="menu-plugins">Plugins</span>
-                <span class="menu-test">Test</span>
-                <span class="menu-window">Window</span>
-                <span class="menu-help">Help</span>
+    <!-- ============ WORKSPACE (LEFT / CENTER / RIGHT) ============ -->
+    <div id="workspace">
+
+        <!-- LEFT: Toolbox — community marketplace (mirrors Roblox's Toolbox / Creator Store).
+             This is NOT a personal asset list: the Store tab shows everything anyone has
+             published, and publishing happens via right-click → Save to Vodevs elsewhere
+             in the UI. "My Assets" only filters down to what you personally saved. -->
+        <div id="toolboxPanel" class="dock-panel dock-left">
+            <div class="panel-title">
+                Toolbox
+                <button id="closeToolboxBtn" title="Close">✕</button>
             </div>
-            <div class="menu-center">
-                <button class="play-btn">▶</button>
-                <button class="pause-btn">⏸</button>
-                <button class="stop-btn">⏹</button>
+            <div class="toolbox-tabs">
+                <button class="toolbox-tab active" data-tab="store" type="button">Store</button>
+                <button class="toolbox-tab" data-tab="mine" type="button">My Assets</button>
             </div>
-            <div class="menu-right">
-                <button class="collab-btn">👥 Collaborate</button>
-                <button class="user-btn">👤</button>
+            <input type="text" id="toolboxSearch" placeholder="Search Toolbox...">
+            <div class="toolbox-chips" id="toolboxChips">
+                <button class="chip active" data-cat="all" type="button">All</button>
+                <button class="chip" data-cat="model" type="button">Models</button>
+                <button class="chip" data-cat="part" type="button">Parts</button>
+                <button class="chip" data-cat="instance" type="button">Instances</button>
+            </div>
+
+            <div id="toolboxBrowse">
+                <div id="toolboxEmpty" class="texture-empty" style="display:none;">Nothing here yet. Right-click a part or model → <b>Save to Vodevs</b> to publish it so everyone can insert it.</div>
+                <ul id="toolboxList" class="vodevs-list toolbox-grid"></ul>
+            </div>
+
+            <!-- Detail view for a selected Toolbox item, like clicking into an asset on Creator Store -->
+            <div id="toolboxDetail" class="toolbox-detail" style="display:none;">
+                <button id="toolboxDetailBack" class="toolbox-back" type="button">← Back</button>
+                <div class="toolbox-detail-icon" id="toolboxDetailIcon">🧩</div>
+                <div class="toolbox-detail-name" id="toolboxDetailName">Asset name</div>
+                <div class="toolbox-detail-meta" id="toolboxDetailMeta">By @you</div>
+                <div class="toolbox-detail-actions">
+                    <button class="btn btn-primary" id="toolboxDetailInsert" type="button">Insert</button>
+                    <button class="btn btn-danger" id="toolboxDetailRemove" type="button">Remove</button>
+                </div>
             </div>
         </div>
 
-        <!-- Tabs Below Menu -->
-        <div id="tabs" class="tabs-bar">
-            <button class="tab-btn active">Home</button>
-            <button class="tab-btn">Avatar</button>
-            <button class="tab-btn">UI</button>
-            <button class="tab-btn">Script</button>
-            <button class="tab-btn">Model</button>
-            <button class="tab-btn">Plugins</button>
-            <button class="tab-btn">Idk</button>
-            <span class="tab-close">+</span>
+        <!-- CENTER: Viewport -->
+        <div id="viewportWrap">
+            <div id="viewport"></div>
+            <div id="controls-hint">
+                <b>WASD</b> Move &nbsp;<b>Q/E</b> Up/Down &nbsp;<b>F</b> Focus<br>
+                <b>1</b> Move &nbsp;<b>2</b> Rotate &nbsp;<b>3</b> Scale &nbsp;<b>Del</b> Delete
+            </div>
         </div>
 
-        <div class="editor-layout">
-            <!-- LEFT SIDEBAR: Toolbox + Explorer -->
-            <div id="leftSidebar" class="left-sidebar">
-                <!-- TOOLBOX PANEL -->
-                <div id="toolboxPanel" class="sidebar-panel toolbox-panel active">
-                    <div class="panel-header">
-                        <span class="panel-title">🧰 Toolbox</span>
-                        <button class="panel-close" id="closeToolbox">✕</button>
-                    </div>
-
-                    <div class="toolbox-tabs">
-                        <button class="toolbox-tab-btn active" data-tab="store">🔐 Creator Store</button>
-                        <button class="toolbox-tab-btn" data-tab="recent">⏱️ Recents</button>
-                        <button class="toolbox-tab-btn" data-tab="mine">📁 My Assets</button>
-                    </div>
-
-                    <input type="text" id="toolboxSearch" placeholder="Search...">
-
-                    <div class="toolbox-store-content">
-                        <div class="store-categories">
-                            <h3>Categories</h3>
-                            <button class="cat-btn" data-cat="3d">🎨 3D Assets</button>
-                            <button class="cat-btn" data-cat="2d">📸 2D Assets</button>
-                            <button class="cat-btn" data-cat="gameplay">🎮 Gameplay</button>
-                            <button class="cat-btn" data-cat="plugins">🔌 Plugins</button>
-                            <button class="cat-btn" data-cat="audio">🔊 Audio</button>
-                        </div>
-
-                        <div class="store-trending">
-                            <h3>Trending</h3>
-                            <div class="asset-grid" id="trendingAssets">
-                                <div class="asset-card">
-                                    <div class="asset-thumbnail">📦</div>
-                                    <div class="asset-name">ASMR Keyboard</div>
-                                    <div class="asset-author">By @sqs5wik</div>
-                                    <div class="asset-rating">⭐ 4.8 (70+ votes)</div>
-                                </div>
-                                <div class="asset-card">
-                                    <div class="asset-thumbnail">🍊</div>
-                                    <div class="asset-name">Lava</div>
-                                    <div class="asset-author">By @creator</div>
-                                    <div class="asset-rating">⭐ FREE</div>
-                                </div>
-                                <div class="asset-card">
-                                    <div class="asset-thumbnail">🎹</div>
-                                    <div class="asset-name">LightUpKeys</div>
-                                    <div class="asset-author">By @creator</div>
-                                    <div class="asset-rating">⭐ FREE</div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <div class="store-shop">
-                            <h3>Shop New</h3>
-                            <div class="asset-grid" id="shopNewAssets">
-                                <div class="asset-card">
-                                    <div class="asset-thumbnail">🚗</div>
-                                    <div class="asset-name">Car Pack</div>
-                                </div>
-                                <div class="asset-card">
-                                    <div class="asset-thumbnail">🏀</div>
-                                    <div class="asset-name">Sports Ball</div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+        <!-- RIGHT: Explorer (top) + Properties (below), permanently docked -->
+        <div id="rightDock">
+            <div id="explorer" class="dock-panel">
+                <div class="panel-title">
+                    Explorer
+                    <button id="refreshExplorerBtn" title="Refresh">↻</button>
                 </div>
-
-                <!-- EXPLORER PANEL -->
-                <div id="explorerPanel" class="sidebar-panel explorer-panel">
-                    <div class="panel-header">
-                        <span class="panel-title">🌳 Explorer</span>
-                        <button class="panel-close" id="closeExplorer">✕</button>
-                    </div>
-                    <input type="text" id="searchBox" placeholder="Search Workspace...">
-                    <ul id="tree" class="tree-root">
-                        <li>
-                            <span class="arrow">▼</span>
-                            <span class="tree-node tree-node-row" id="workspaceNode" data-node="Workspace">
-                                <span class="tree-node-label">🌐 Workspace</span>
-                                <button class="explorer-add-btn" id="workspaceAddBtn" title="Insert object">+</button>
-                            </span>
-                            <ul class="nested" id="workspaceRoot">
-                                <li><span class="arrow">▼</span> <span class="tree-node">📷 Camera</span></li>
-                                <li><span class="arrow">▼</span> <span class="tree-node">⛰️ Terrain</span></li>
-                                <li id="importedModelNode"><span class="arrow">▼</span> <span class="tree-node">ImportedModel (Empty)</span>
-                                    <ul class="nested" id="modelChildren"></ul>
-                                </li>
-                                <li class="extras-holder"><ul class="nested" id="workspaceExtras" style="padding-left:0;"></ul></li>
-                            </ul>
-                        </li>
-                    </ul>
-                </div>
+                <input type="text" id="searchBox" placeholder="Search Workspace...">
+                <ul id="tree">
+                    <li>
+                        <span class="arrow">▼</span>
+                        <span class="tree-node tree-node-row" id="workspaceNode" data-node="Workspace">
+                            <span class="tree-node-label">🌐 Workspace</span>
+                            <button class="explorer-add-btn" id="workspaceAddBtn" title="Insert object into Workspace">⊕</button>
+                        </span>
+                        <ul class="nested" id="workspaceRoot">
+                            <li><span class="arrow">▼</span> <span class="tree-node">📷 Camera</span></li>
+                            <li><span class="arrow">▼</span> <span class="tree-node">⛰️ Terrain</span></li>
+                            <li id="importedModelNode"><span class="arrow">▼</span> <span class="tree-node">ImportedModel (Empty)</span>
+                                <ul class="nested" id="modelChildren"></ul>
+                            </li>
+                            <li class="extras-holder"><ul class="nested" id="workspaceExtras" style="padding-left:0;"></ul></li>
+                        </ul>
+                    </li>
+                </ul>
             </div>
 
-            <!-- CENTER: 3D VIEWPORT -->
-            <div id="viewport" class="viewport">
-                <div id="status">✨ Ready. Drop rbxlx/rbxmx/XML, glTF, or OBJ.</div>
-            </div>
-
-            <!-- RIGHT SIDEBAR: Properties + File Upload -->
-            <div id="rightSidebar" class="right-sidebar">
-                <!-- FILE UPLOAD SECTION -->
-                <div id="fileUploadPanel" class="sidebar-panel upload-panel">
-                    <div class="panel-header">
-                        <span class="panel-title">📁 File</span>
+            <div id="properties" class="dock-panel panel-hidden">
+                <div class="panel-title">Properties</div>
+                <div id="propContent">
+                    <div class="prop-group">
+                        <div class="prop-line"><label>Name</label><input type="text" id="propName"></div>
                     </div>
-                    <label class="btn" for="fileInput">📁 Import</label>
-                    <input type="file" id="fileInput" accept=".xml,.rbxlx,.rbxmx,.rbxl,.rbxm,.gltf,.glb,.obj" style="display:none;">
-                    <span id="fileName">No file selected</span>
-                    <div class="divider"></div>
-                    <label for="wedgeSteps" class="slices-row" title="Wedges are rebuilt as boxes. Higher = smoother.">
-                        Slices
-                        <input type="number" id="wedgeSteps" min="2" max="16" value="6">
-                    </label>
-                    <div class="divider"></div>
-                    <button class="btn btn-success" id="addPartBtn">➕ Add Part</button>
-                    <button class="btn btn-primary" id="exportBtn">📦 Export JSON</button>
-                    <div class="divider"></div>
-                    <button class="btn btn-danger" id="clearBtn">✕ Clear</button>
-                </div>
-
-                <!-- PROPERTIES PANEL -->
-                <div id="propertiesPanel" class="sidebar-panel properties-panel">
-                    <div class="panel-header">
-                        <span class="panel-title">⚙️ Properties</span>
+                    <div class="prop-group">
+                        <div class="prop-line"><label>ClassName</label><div id="propClass">Part</div></div>
                     </div>
-                    <div id="propContent">
-                        <div class="prop-group">
-                            <label>Name</label>
-                            <input type="text" id="propName">
-                        </div>
-                        <div class="prop-group">
-                            <label>Class</label>
-                            <div id="propClass" style="font-size:0.9rem; color:#aaa;">Part</div>
-                        </div>
-                        <div class="prop-group">
-                            <label>Material</label>
+                    <div class="prop-group">
+                        <div class="prop-line"><label>Material</label>
                             <select id="propMaterial">
                                 <option value="Plastic">Plastic</option>
                                 <option value="Wood">Wood</option>
@@ -247,91 +290,98 @@
                                 <option value="Paint">Paint</option>
                             </select>
                         </div>
-                        <div class="prop-group">
-                            <label>Position</label>
-                            <div class="prop-row">
-                                <input type="number" id="propPosX" step="0.1">
-                                <input type="number" id="propPosY" step="0.1">
-                                <input type="number" id="propPosZ" step="0.1">
-                            </div>
+                    </div>
+                    <div class="prop-group">
+                        <label class="prop-group-label">Position</label>
+                        <div class="prop-row">
+                            <input type="number" id="propPosX" step="0.1">
+                            <input type="number" id="propPosY" step="0.1">
+                            <input type="number" id="propPosZ" step="0.1">
                         </div>
-                        <div class="prop-group">
-                            <label>Rotation (Euler)</label>
-                            <div class="prop-row">
-                                <input type="number" id="propRotX" step="0.1">
-                                <input type="number" id="propRotY" step="0.1">
-                                <input type="number" id="propRotZ" step="0.1">
-                            </div>
+                    </div>
+                    <div class="prop-group">
+                        <label class="prop-group-label">Rotation</label>
+                        <div class="prop-row">
+                            <input type="number" id="propRotX" step="0.1">
+                            <input type="number" id="propRotY" step="0.1">
+                            <input type="number" id="propRotZ" step="0.1">
                         </div>
-                        <div class="prop-group">
-                            <label>Size</label>
-                            <div class="prop-row">
-                                <input type="number" id="propSizeX" step="0.1">
-                                <input type="number" id="propSizeY" step="0.1">
-                                <input type="number" id="propSizeZ" step="0.1">
-                            </div>
+                    </div>
+                    <div class="prop-group">
+                        <label class="prop-group-label">Size</label>
+                        <div class="prop-row">
+                            <input type="number" id="propSizeX" step="0.1">
+                            <input type="number" id="propSizeY" step="0.1">
+                            <input type="number" id="propSizeZ" step="0.1">
                         </div>
-                        <div class="prop-group">
-                            <label>Color (Hex)</label>
-                            <input type="color" id="propColor" value="#cccccc">
+                    </div>
+                    <div class="prop-group">
+                        <div class="prop-line"><label>Color</label><input type="color" id="propColor" value="#cccccc"></div>
+                    </div>
+                    <div class="prop-group">
+                        <label class="prop-group-label">Behavior</label>
+                        <label class="checkbox-row"><input type="checkbox" id="propAnchored"> Anchored</label>
+                        <label class="checkbox-row"><input type="checkbox" id="propCanCollide"> CanCollide</label>
+                        <label class="checkbox-row"><input type="checkbox" id="propTruss"> Truss</label>
+                    </div>
+                    <div class="prop-group">
+                        <label class="prop-group-label">Textures</label>
+                        <div class="texture-add-row">
+                            <select id="propTexFace">
+                                <option value="Front">Front</option>
+                                <option value="Back">Back</option>
+                                <option value="Top">Top</option>
+                                <option value="Bottom">Bottom</option>
+                                <option value="Left">Left</option>
+                                <option value="Right">Right</option>
+                            </select>
+                            <select id="propTexType">
+                                <option value="Studs">Studs</option>
+                                <option value="Inlets">Inlets</option>
+                            </select>
                         </div>
-                        <div class="prop-group">
-                            <label>Behavior</label>
-                            <label class="checkbox-row"><input type="checkbox" id="propAnchored"> Anchored</label>
-                            <label class="checkbox-row"><input type="checkbox" id="propCanCollide"> CanCollide</label>
-                            <label class="checkbox-row"><input type="checkbox" id="propTruss"> Truss</label>
-                        </div>
-                        <div class="prop-group">
-                            <label>Textures</label>
-                            <div class="texture-add-row">
-                                <select id="propTexFace">
-                                    <option value="Front">Front</option>
-                                    <option value="Back">Back</option>
-                                    <option value="Top">Top</option>
-                                    <option value="Bottom">Bottom</option>
-                                    <option value="Left">Left</option>
-                                    <option value="Right">Right</option>
-                                </select>
-                                <select id="propTexType">
-                                    <option value="Studs">Studs</option>
-                                    <option value="Inlets">Inlets</option>
-                                </select>
-                            </div>
-                            <button type="button" class="btn" id="propTexAddBtn">+ Add Texture</button>
-                            <ul class="texture-list" id="propTexList"></ul>
-                        </div>
+                        <button type="button" class="btn" id="propTexAddBtn" style="width:100%; justify-content:center; margin-bottom:8px;">+ Add Texture</button>
+                        <ul class="texture-list" id="propTexList"></ul>
                     </div>
                 </div>
             </div>
         </div>
-
-        <!-- Insert Object Menu (floating) -->
-        <div id="insertObjectMenu" class="floating-menu">
-            <input type="text" id="insertObjectSearch" placeholder="Search object">
-            <div class="floating-menu-list" id="insertObjectList"></div>
-        </div>
-
-        <!-- Right-click Context Menu (floating) -->
-        <ul id="contextMenu" class="context-menu"></ul>
-
-        <!-- Controls Hint -->
-        <div id="controls-hint">
-            <b>WASD</b> Move &nbsp;|&nbsp; <b>Q/E</b> Up/Down &nbsp;|&nbsp; <b>F</b> Focus Selection<br>
-            <b>1</b> Move &nbsp; <b>2</b> Rotate &nbsp; <b>3</b> Scale &nbsp; <b>Del</b> Delete
-        </div>
-
-        <!-- Toast Notification -->
-        <div class="toast" id="toast"><span class="icon" id="toastIcon">✅</span><span id="toastMessage"></span></div>
     </div>
 
-    <script type="importmap">
-        {
-            "imports": {
-                "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
-                "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
-            }
+    <!-- ============ STATUS BAR (BOTTOM) ============ -->
+    <div id="statusbar">
+        <span class="statusbar-icon">✨</span>
+        <span id="status">Ready. Drop rbxlx/rbxmx/XML, glTF, or OBJ.</span>
+        <span class="statusbar-spacer"></span>
+        <span id="statObjectCount" class="statusbar-stat">0 objects</span>
+        <span class="statusbar-sep"></span>
+        <span id="statSelection" class="statusbar-stat">No selection</span>
+        <span class="statusbar-sep"></span>
+        <span id="statCamPos" class="statusbar-stat">Cam: 0.0, 0.0, 0.0</span>
+    </div>
+
+</div>
+
+<!-- Floating "Insert Object" search menu (mirrors Roblox Studio) -->
+<div id="insertObjectMenu" class="floating-menu">
+    <input type="text" id="insertObjectSearch" placeholder="Search object">
+    <div class="floating-menu-list" id="insertObjectList"></div>
+</div>
+
+<!-- Generic right-click context menu -->
+<ul id="contextMenu" class="context-menu"></ul>
+
+<div class="toast" id="toast"><span class="icon" id="toastIcon">✅</span><span id="toastMessage"></span></div>
+
+<!-- IMPORT MAP INLINE (FIXED) -->
+<script type="importmap">
+    {
+        "imports": {
+            "three": "https://unpkg.com/three@0.128.0/build/three.module.js",
+            "three/addons/": "https://unpkg.com/three@0.128.0/examples/jsm/"
         }
-    </script>
-    <script type="module" src="main.js"></script>
+    }
+</script>
+<script type="module" src="main.js"></script>
 </body>
 </html>
